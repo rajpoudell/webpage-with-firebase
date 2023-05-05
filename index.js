@@ -25,7 +25,7 @@ addButtonEl.addEventListener("click",function () {
     clearInputFieldEl();
     appendItemto(inputValue) ;
 
-    console.log(`${inputValue} added to database`);
+    console.log(` ${inputValue} added to database`);
 })
 
 function clearInputFieldEl(){
