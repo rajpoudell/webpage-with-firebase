@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-import { getDatabase , ref ,push ,onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+import { getDatabase , ref ,push ,remove, onValue} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
 
 
@@ -22,7 +22,7 @@ addButtonEl.addEventListener("click",function () {
     push(shoppingListInDB,inputValue ) //ref first argu and value 2nd argu
 
     clearInputFieldEl();
-    s
+    
     // appendItemto(inputValue) ;  from commenting this line we prevent double fetching and adding element bug in while add to parentEl
 
     console.log(` ${inputValue} added to database`);
@@ -43,7 +43,7 @@ onValue(shoppingListInDB , function(snapshot){
         let currentItemID = currentItem[0];
         let currentItemValue = currentItem[1];
 
-        appendItemto(currentItemValue) //appending value into parent element
+        appendItemto(currentItem) //appending value into parent element
         
     }
     
@@ -53,9 +53,33 @@ function clearShoppingListEl(){
     parentEl.innerHTML="";
 }
 
+//function for clearing input 
 function clearInputFieldEl(){
        inputFieldEl.value="";
 }
-function appendItemto(itemvalue) {
-    parentEl.innerHTML += `<li>${itemvalue}</li>`
+
+
+//function for adding li to the parent element called ul/.shopping-list
+function appendItemto(item) {
+     
+    // parentEl.innerHTML += `<li>${itemvalue}</li> //this line cannot be used
+    // for big project so createElement is being used instead of this line
+
+    let itemID = item[0]
+    let itemValue = item[1] 
+    
+    let newEL = document.createElement("li")
+    newEL.textContent = itemValue;
+    parentEl.append(newEL);
+    newEL.addEventListener("dblclick",function(){
+        console.log(itemID)//consoling the item which is being clicked
+        let extactLocationinDB =  ref(database , `shoppingList/${itemID}`)
+
+        remove(extactLocationinDB);
+
+
+    })
+
+
+
 }
