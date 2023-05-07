@@ -31,6 +31,7 @@ addButtonEl.addEventListener("click",function () {
 // fetching from database 
 onValue(shoppingListInDB , function(snapshot){
     // let  itemsArray = Object.values(snapshot.val())
+    if(snapshot.exists()){ //this snapshot.exists check the parentEl if it has li item or not and represent the data
 
     let  itemsArray = Object.entries(snapshot.val()) //getting both unique id and value of data from database
 
@@ -45,6 +46,9 @@ onValue(shoppingListInDB , function(snapshot){
 
         appendItemto(currentItem) //appending value into parent element
         
+    }}
+    else{
+        parentEl.innerHTML = "No items here ...yet"
     }
     
 })
